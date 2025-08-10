@@ -47,8 +47,6 @@ Health Record Organizer/
     └── manage_users.html
 ```
 
-> Your zip included a local `venv/` folder. **Do not commit** that to Git; create a fresh virtual environment instead.
-
 ---
 
 ## 🚀 Getting Started (Local)
