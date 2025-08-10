@@ -1,0 +1,101 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif; /* Use Poppins for a modern feel */
+    color: white;
+    background: linear-gradient(135deg, #6a0dad, #3a0ca3); /* Purple gradient */
+    overflow: hidden; /* Prevent scrolling */
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    position: relative;
+    padding: 20px;
+    overflow: hidden; /* Ensure content remains within view */
+}
+
+.hero-content h1 {
+    font-size: 2rem;
+    margin: 0;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.hero-content h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.register-btn {
+    background-color: #e00078; /* Vibrant pink */
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.register-btn:hover {
+    background-color: #ff007f; /* Lighter pink */
+}
+
+/* Navigation Bar */
+.hero-nav {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.hero-nav a {
+    text-decoration: none;
+    font-size: 1rem;
+    color: white;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.hero-nav a:hover {
+    border-color: #ff007f;
+}
+
+/* Decorative Elements */
+.hero::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    top: -50px;
+    left: -50px;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    bottom: -50px;
+    right: -50px;
+}
