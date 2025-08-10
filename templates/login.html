@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="login-section">
+    <div class="login-container">
+        <h2>Login</h2>
+        {% if error_message %}
+        <p class="error-message">{{ error_message }}</p>
+        {% endif %}
+        <form id="login-form" method="POST">
+            <input type="tel" name="phone" placeholder="Phone number" maxlength="10" pattern="\d{10}" required />
+            <div class="password-container">
+                <input type="password" id="password" name="password" placeholder="Password" required />
+                <span class="toggle-password" onclick="togglePasswordVisibility()">👁</span>
+            </div>
+            <button type="submit" class="submit-btn">Sign In</button>
+        </form>
+        <div class="forgot-link">
+            <a href="/forgot">Forgot Phone no / Password</a>
+        </div>
+        <!-- Add a "Register" link below the "Forgot Password" link -->
+        <div class="register-link">
+            <p>Don't have an account? <a href="/register">Register</a></p>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Login Page Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #6a0dad, #3a0ca3); /* Purple gradient */
+    color: white;
+}
+
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.login-container {
+    background: white;
+    color: #e00078;
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 300px;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-container input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 1rem;
+    outline: none;
+    background: #f5f5f5;
+    width: 100%;
+}
+
+.login-container input:focus {
+    border-color: #e00078;
+    box-shadow: 0 0 5px rgba(224, 0, 120, 0.5);
+}
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    flex: 1;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #999;
+    transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: #e00078;
+}
+
+.submit-btn {
+    background-color: #e00078;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #ff007f;
+}
+
+.forgot-link {
+    margin-top: 10px;
+}
+
+.forgot-link a {
+    font-size: 0.9rem;
+    color: #e00078;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-link a:hover {
+    color: #ff007f;
+    text-decoration: underline;
+}
+
+.register-link {
+    margin-top: 10px;
+}
+
+.register-link p {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.register-link a {
+    color: #e00078;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+    color: #ff007f;
+    text-decoration: underline;
+}
+
+.error-message {
+    color: #b71c1c;
+    font-size: 0.9rem;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+</style>
+
+<script>
+function togglePasswordVisibility() {
+    const passwordField = document.getElementById('password');
+    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
+}
+</script>
+{% endblock %}

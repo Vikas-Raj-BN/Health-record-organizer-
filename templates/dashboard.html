@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        /* General Styling */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6a0dad, #3a0ca3);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .dashboard-container {
+            background: white;
+            color: #e00078;
+            padding: 20px;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: white;
+            color: #e00078;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e00078;
+            padding: 10px 20px;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .profile-icon {
+            position: relative;
+        }
+
+        .profile-icon img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #e00078;
+            cursor: pointer;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: white;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 200px;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 10;
+        }
+
+        .profile-dropdown p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .profile-dropdown a {
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            color: #e00078;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .profile-dropdown a:hover {
+            color: #ff007f;
+        }
+
+        .content {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .content h2 {
+            font-size: 1.25rem;
+            color: #6a0dad;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        form input[type="file"], form input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            outline: none;
+            font-size: 0.9rem;
+            background: #f5f5f5;
+        }
+
+        form button {
+            padding: 10px 20px;
+            background: #e00078;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        form button:hover {
+            background: #ff007f;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            color: #e00078;
+            font-size: 1rem;
+        }
+
+        table img, table embed {
+            max-width: 100px;
+            height: auto;
+        }
+
+        table a {
+            color: #6a0dad;
+            text-decoration: none;
+        }
+
+        table a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="navbar">
+            <h1>Dashboard</h1>
+            <div class="profile-icon" onclick="toggleProfile()">
+                <img src="{{ url_for('static', filename='profile_icon.png') }}" alt="Profile">
+                <div id="profileDropdown" class="profile-dropdown">
+                    <p><strong>Username:</strong> {{ username }}</p>
+                    <p><strong>Phone:</strong> {{ phone }}</p>  <!-- Display the linked_phone -->
+                    <p><strong>Unique ID:</strong> {{ unique_id }}</p>
+                    <a href="{{ url_for('home') }}">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>Welcome, {{ username }}!</h2>
+            <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="user_id" value="{{ user_id }}">
+                <label for="report">Upload Report:</label>
+                <input type="file" name="report" required>
+                <input type="text" name="description" placeholder="Description" required>
+                <button type="submit">Upload</button>
+            </form>
+
+            <h3>Your Reports:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Files</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in reports %}
+                    <tr>
+                        <td>
+                            {% set file_extension = report[2].split('.')[-1].lower() %}
+                            {% if file_extension in ['jpg', 'jpeg', 'png', 'gif'] %}
+                            <img src="{{ url_for('static', filename='uploads/' + report[2]) }}" alt="Preview">
+                            {% elif file_extension == 'pdf' %}
+                            <embed src="{{ url_for('static', filename='uploads/' + report[2]) }}" type="application/pdf">
+                            {% else %}
+                            <p>Preview not available</p>
+                            {% endif %}
+                        </td>
+                        <td>{{ report[3] }}</td>
+                        <td>
+                            <a href="{{ url_for('download', report_id=report[0]) }}">Download</a> | 
+                            <a href="{{ url_for('delete', report_id=report[0]) }}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function toggleProfile() {
+            const profileDropdown = document.getElementById('profileDropdown');
+            profileDropdown.style.display = profileDropdown.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>

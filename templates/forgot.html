@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="forgot-section">
+    <div class="forgot-container">
+        <h2>Forgot Phone no / Password</h2>
+        {% if error_message %}
+        <p class="error-message">{{ error_message }}</p>
+        {% endif %}
+        {% if user_details %}
+        <p class="success-message">
+            <strong>Phone no:</strong> {{ user_details['phone'] }}<br>
+            <strong>Password:</strong> {{ user_details['password'] }}
+        </p>
+        <a href="/login" class="login-btn">Login</a>
+        {% else %}
+        <form id="forgot-form" method="POST">
+            <input type="text" name="unique_id" placeholder="Enter Your Unique ID" required />
+            <button type="submit" class="submit-btn">Retrieve Details</button>
+        </form>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+/* Forgot Page Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #6a0dad, #3a0ca3); /* Purple gradient */
+    color: white;
+}
+
+.forgot-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.forgot-container {
+    background: white;
+    color: #e00078;
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 300px;
+}
+
+.forgot-container h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.forgot-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.forgot-container input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 1rem;
+    outline: none;
+    background: #f5f5f5;
+    width: 100%;
+}
+
+.forgot-container input:focus {
+    border-color: #e00078;
+    box-shadow: 0 0 5px rgba(224, 0, 120, 0.5);
+}
+
+.submit-btn {
+    background-color: #e00078;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #ff007f;
+}
+
+.login-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #e00078;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #ff007f;
+}
+
+.error-message {
+    color: #b71c1c;
+    font-size: 0.9rem;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.success-message {
+    color: green;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.5;
+}
+</style>
+{% endblock %}
